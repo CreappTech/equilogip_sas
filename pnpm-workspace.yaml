@@ -1,0 +1,14 @@
+packages:
+  - "apps/web"
+  - "packages/*"
+
+# eslint-config-next@16.3.4 hace require("next/dist/compiled/babel/eslint-parser")
+# sin declarar `next` como peer. Hoistear `next` al node_modules raíz permite
+# que ese require resuelva bajo el layout aislado de pnpm 11 (npm/yarn no lo
+# necesitan porque hoistean por defecto).
+publicHoistPattern:
+  - next
+
+allowBuilds:
+  sharp: false
+  unrs-resolver: false

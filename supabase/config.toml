@@ -1,0 +1,20 @@
+[supabase]
+# Puerto para el studio
+port = 54322
+
+# Puerto para la API
+api_port = 54321
+
+# Puerto para la función de realtime
+realtime_port = 54320
+
+# Puerto para el dashboard de studio
+studio_port = 54323
+
+[api]
+# Habilitar la API
+enabled = true
+
+[db]
+# Puerto de la base de datos
+port = 54322

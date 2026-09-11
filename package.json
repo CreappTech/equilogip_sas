@@ -1,0 +1,16 @@
+{
+  "name": "equilogip_sas",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter equilogip_sas_web dev",
+    "build": "pnpm --filter equilogip_sas_web build",
+    "start": "pnpm --filter equilogip_sas_web start",
+    "lint": "pnpm --filter equilogip_sas_web lint",
+    "typecheck": "pnpm --filter equilogip_sas_web exec tsc --noEmit"
+  },
+  "packageManager": "pnpm@11.21.0",
+  "engines": {
+    "node": ">=20"
+  }
+}

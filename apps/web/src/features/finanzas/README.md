@@ -1,0 +1,1 @@
+# finanzas - Dominio de Equilogipsas
