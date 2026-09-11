@@ -37,6 +37,16 @@ async function actorEsSuperAdmin(): Promise<boolean> {
   return roles.some((r) => r.codigo === "AUTH_SUPER_ADMIN");
 }
 
+async function tenantDeActor(userId: string): Promise<string | null> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("profiles")
+    .select("tenant_id")
+    .eq("id", userId)
+    .single();
+  return data?.tenant_id ?? null;
+}
+
 async function rolIdsACodigos(rolIds: string[]): Promise<Set<string>> {
   const supabase = await createClient();
   if (rolIds.length === 0) return new Set();
@@ -59,7 +69,7 @@ async function usuarioTieneRolAdmin(usuarioId: string): Promise<boolean> {
 export async function crearUsuario(
   input: RegistrarInput
 ): Promise<Resultado> {
-  await requireUser();
+  const actor = await requireUser();
   if (!(await autorizar("auth.usuarios.crear"))) {
     return { ok: false, error: "No tienes permiso para crear usuarios." };
   }
@@ -69,6 +79,11 @@ export async function crearUsuario(
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Datos inválidos." };
   }
   const data = parsed.data;
+
+  const actorTenant = await tenantDeActor(actor.id);
+  if (!actorTenant) {
+    return { ok: false, error: "No se pudo identificar la compañía del usuario." };
+  }
 
   const actorSuper = await actorEsSuperAdmin();
   const codigosARol = await rolIdsACodigos(data.rolIds ?? []);
@@ -104,7 +119,7 @@ export async function crearUsuario(
   const supabase = await createClient();
   const { error: profileError } = await supabase.from("profiles").insert({
     id: nuevoId,
-    tenant_id: data.tenantId,
+    tenant_id: actorTenant,
     numero_documento: data.numeroDocumento,
     nombres: data.nombre,
     apellidos: data.apellido,

@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { uuidSchema } from "@/lib/schemas/uuid";
+
 export const estadoEmpleadoSchema = z.enum(["activo", "inactivo"]);
 
 const fechaNula = z.preprocess(
@@ -17,7 +19,7 @@ const emailOpcional = z.preprocess(
 
 const opcionCatalogo = z.preprocess(
   (value) => (value === "" || value === null || value === undefined ? null : value),
-  z.string().uuid("Opción inválida.").nullable().optional()
+  uuidSchema("Opción inválida.").nullable().optional()
 );
 
 const tallaCamisa = z.enum(["S", "M", "L", "XL", "XXL", "XXXL"], {

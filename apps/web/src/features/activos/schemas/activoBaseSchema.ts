@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { uuidSchema } from "@/lib/schemas/uuid";
+
 export const estadoActivoSchema = z.enum(["activo", "inactivo"]);
 
 export const estadoOperativoActivoSchema = z.enum([
@@ -61,7 +63,7 @@ export const activoBaseSchema = z.object({
   origen: origenActivoSchema.default("PROPIA"),
   centro_servicio_id: z.string().min(1, "La sede es obligatoria."),
   proveedor_id: z
-    .preprocess((value) => (value === "" ? null : value), z.string().uuid("Proveedor inválido.").nullish()),
+    .preprocess((value) => (value === "" ? null : value), uuidSchema("Proveedor inválido.").nullish()),
   datos_tecnicos: z
     .record(z.string(), z.union([z.string(), z.array(z.string())]))
     .optional(),

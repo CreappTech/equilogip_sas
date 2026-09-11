@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { uuidSchema } from "./uuid";
+
 export const registrarUsuarioSchema = z.object({
   nombre: z.string().min(1, "El nombre es obligatorio."),
   apellido: z.string().min(1, "El apellido es obligatorio."),
@@ -13,33 +15,32 @@ export const registrarUsuarioSchema = z.object({
   password: z
     .string()
     .min(6, "La contraseña debe tener al menos 6 caracteres."),
-  tenantId: z.string().uuid("Tenant inválido."),
   rol: z.string().min(1, "El rol es obligatorio."),
   telefono: z.string().trim().optional(),
-  rolIds: z.array(z.string().uuid("Rol inválido")).optional(),
+  rolIds: z.array(uuidSchema("Rol inválido")).optional(),
 });
 
 export const cambiarEstadoSchema = z.object({
-  id: z.string().uuid("Usuario inválido."),
+  id: uuidSchema("Usuario inválido."),
   estado: z.enum(["activo", "inactivo", "bloqueado"]),
 });
 
 export const asignarRolesSchema = z.object({
-  usuarioId: z.string().uuid("Usuario inválido."),
-  rolIds: z.array(z.string().uuid("Rol inválido")),
+  usuarioId: uuidSchema("Usuario inválido."),
+  rolIds: z.array(uuidSchema("Rol inválido")),
 });
 
 export const actualizarUsuarioSchema = z.object({
-  id: z.string().uuid("Usuario inválido."),
+  id: uuidSchema("Usuario inválido."),
   nombre: z.string().min(1, "El nombre es obligatorio."),
   apellido: z.string().min(1, "El apellido es obligatorio."),
   numeroDocumento: z.string().min(1, "El número de documento es obligatorio."),
   telefono: z.string().trim().optional(),
-  rolIds: z.array(z.string().uuid("Rol inválido")).optional(),
+  rolIds: z.array(uuidSchema("Rol inválido")).optional(),
 });
 
 export const eliminarUsuarioSchema = z.object({
-  id: z.string().uuid("Usuario inválido."),
+  id: uuidSchema("Usuario inválido."),
 });
 
 export const rolSchema = z.object({
@@ -52,7 +53,7 @@ export const rolSchema = z.object({
     .toUpperCase(),
   descripcion: z.string().trim().optional(),
   estado: z.enum(["activo", "inactivo"]).default("activo"),
-  permisoIds: z.array(z.string().uuid("Permiso inválido")).optional(),
+  permisoIds: z.array(uuidSchema("Permiso inválido")).optional(),
 });
 
 export type RegistrarInput = z.infer<typeof registrarUsuarioSchema>;

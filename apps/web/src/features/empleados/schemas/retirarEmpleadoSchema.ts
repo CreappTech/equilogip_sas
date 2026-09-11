@@ -1,7 +1,9 @@
 import { z } from "zod";
 
+import { uuidSchema } from "@/lib/schemas/uuid";
+
 export const retirarEmpleadoSchema = z.object({
-  id: z.string().uuid("Empleado inválido."),
+  id: uuidSchema("Empleado inválido."),
 });
 
 export type RetirarEmpleadoInput = z.infer<typeof retirarEmpleadoSchema>;

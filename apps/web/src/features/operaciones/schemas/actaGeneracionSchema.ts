@@ -1,13 +1,15 @@
 import { z } from "zod";
 
+import { uuidSchema } from "@/lib/schemas/uuid";
+
 /**
  * Datos mínimos para generar un acta: cliente + equipo dentro de un periodo
  * de fechas (vacaciones/semana de prestación).
  */
 export const actaGeneracionSchema = z
   .object({
-    cliente_id: z.string().uuid("Selecciona un cliente válido."),
-    equipo_id: z.string().uuid("Selecciona un equipo válido."),
+    cliente_id: uuidSchema("Selecciona un cliente válido."),
+    equipo_id: uuidSchema("Selecciona un equipo válido."),
     fecha_desde: z.string().min(1, "La fecha inicial es obligatoria."),
     fecha_hasta: z.string().min(1, "La fecha final es obligatoria."),
   })

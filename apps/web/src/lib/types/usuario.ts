@@ -10,7 +10,6 @@ export type RegistrarInput = {
   numeroDocumento: string;
   correo: string;
   password: string;
-  tenantId: string;
   rol: string;
   telefono?: string;
   rolIds?: string[];

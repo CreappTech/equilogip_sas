@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-const uuidRequerido = (mensaje: string) => z.string().uuid(mensaje);
+import { uuidSchema } from "@/lib/schemas/uuid";
+
+const uuidRequerido = (mensaje: string) => uuidSchema(mensaje);
 
 /**
  * Schema del formulario de planeación del servicio (spec §6.2, simplificado).

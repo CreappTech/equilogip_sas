@@ -33,7 +33,6 @@ import {
   eliminarUsuario as eliminarUsuarioAction,
 } from "./actions";
 
-const TENANT_PRINCIPAL = "11111111-1111-1111-1111-111111111111";
 const PAGE_SIZE = 8;
 
 const formSchema = z.object({
@@ -144,7 +143,6 @@ export default function UsuariosClient({
       correo: data.correo,
       password: data.password,
       telefono: data.telefono,
-      tenantId: TENANT_PRINCIPAL,
       rol: "operario",
       rolIds: nuevosRoles,
     });

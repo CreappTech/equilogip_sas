@@ -5,13 +5,14 @@ import { z } from "zod";
 
 import { getPermisos, requireUser } from "@/lib/auth/permisos";
 import { createClient } from "@/lib/supabase/server";
+import { uuidSchema } from "@/lib/schemas/uuid";
 import { traducirError } from "./shared";
 import { permisoEmpleado } from "../types/empleado.types";
 import type { ResultadoEmpleado } from "../types/empleado.types";
 
 const vincularUsuarioSchema = z.object({
-  empleado_id: z.string().uuid("Empleado inválido."),
-  profile_id: z.string().uuid("Usuario inválido.").nullable(),
+  empleado_id: uuidSchema("Empleado inválido."),
+  profile_id: uuidSchema("Usuario inválido.").nullable(),
 });
 
 /**

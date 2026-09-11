@@ -5,12 +5,13 @@ import { z } from "zod";
 
 import { requireUser } from "@/lib/auth/permisos";
 import { createClient } from "@/lib/supabase/server";
+import { uuidSchema } from "@/lib/schemas/uuid";
 import { empleadoSchema, type EmpleadoInput } from "../schemas/empleadoSchema";
 import { emptyToNull, requierePermisoEmpleado, traducirError } from "./shared";
 import { permisoEmpleado } from "../types/empleado.types";
 import type { ResultadoEmpleado } from "../types/empleado.types";
 
-const idSchema = z.object({ id: z.string().uuid("Empleado inválido.") });
+const idSchema = z.object({ id: uuidSchema("Empleado inválido.") });
 
 export async function updateEmpleado(
   input: EmpleadoInput & { id: string }

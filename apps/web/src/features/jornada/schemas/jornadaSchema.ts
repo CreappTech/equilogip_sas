@@ -1,25 +1,27 @@
 import { z } from "zod";
 
+import { uuidSchema } from "@/lib/schemas/uuid";
+
 export const programacionSchema = z.object({
-  operador_id: z.string().uuid("Seleccione un operador válido"),
+  operador_id: uuidSchema("Seleccione un operador válido"),
   fecha: z.string().min(1, "La fecha es obligatoria"),
   hora_inicio_programada: z
     .string()
     .min(1, "La hora de inicio es obligatoria"),
   hora_fin_programada: z.string().min(1, "La hora de fin es obligatoria"),
-  turno_id: z.string().uuid().nullable().optional(),
-  centro_servicio_id: z.string().uuid().nullable().optional(),
+  turno_id: uuidSchema("Turno inválido.").nullable().optional(),
+  centro_servicio_id: uuidSchema("Sede inválida.").nullable().optional(),
 });
 
 export type ProgramacionInput = z.infer<typeof programacionSchema>;
 
 export const programacionSemanalSchema = z.object({
   operadores: z
-    .array(z.string().uuid())
+    .array(uuidSchema("Operador inválido."))
     .min(1, "Seleccione al menos un operador"),
   semana_inicio: z.string().min(1, "La fecha de inicio es obligatoria"),
-  turno_id: z.string().uuid("Seleccione un turno"),
-  centro_servicio_id: z.string().uuid().nullable().optional(),
+  turno_id: uuidSchema("Seleccione un turno"),
+  centro_servicio_id: uuidSchema("Sede inválida.").nullable().optional(),
 });
 
 export type ProgramacionSemanalInput = z.infer<
@@ -27,7 +29,7 @@ export type ProgramacionSemanalInput = z.infer<
 >;
 
 export const novedadSchema = z.object({
-  operador_id: z.string().uuid("Seleccione un operador válido"),
+  operador_id: uuidSchema("Seleccione un operador válido"),
   fecha: z.string().min(1, "La fecha es obligatoria"),
   tipo_novedad: z.enum([
     "incapacidad",
@@ -62,7 +64,7 @@ export const autorizacionExtraSchema = z.object({
 export type AutorizacionExtraInput = z.infer<typeof autorizacionExtraSchema>;
 
 export const idSchema = z.object({
-  id: z.string().uuid("ID inválido"),
+  id: uuidSchema("ID inválido"),
 });
 
 export const configuracionJornadaSchema = z.object({

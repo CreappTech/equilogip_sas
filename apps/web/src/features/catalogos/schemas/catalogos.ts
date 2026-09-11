@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { uuidSchema } from "@/lib/schemas/uuid";
 import type { RecursoCatalogo } from "../types/catalogos";
 
 const nombreObligatorio = (mensaje: string) =>
@@ -84,7 +85,7 @@ const codigoCiiu = z
   .transform((valor) => valor.toUpperCase());
 
 export const actividadCatalogoSchema = catalogoTenantSchema.extend({
-  grupo_actividad_id: z.uuid("Selecciona el grupo de actividad."),
+  grupo_actividad_id: uuidSchema("Selecciona el grupo de actividad."),
   codigo_ciiu: codigoCiiu,
   tarifa: tarifaActividadSchema.default(0),
 });
@@ -139,7 +140,7 @@ export const proveedorCatalogoSchema = z.object({
  * marca se resuelve en servidor (catálogo de marcas activas).
  */
 export const modeloCatalogoSchema = z.object({
-  marca_id: z.uuid("Selecciona la marca."),
+  marca_id: uuidSchema("Selecciona la marca."),
   nombre: nombreObligatorio("El nombre es obligatorio."),
   orden: ordenCatalogo.default(0),
   activo: z.boolean().default(true),

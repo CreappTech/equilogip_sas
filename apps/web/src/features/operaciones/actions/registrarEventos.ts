@@ -1,11 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
 import type { PostgrestError } from "@supabase/supabase-js";
 
 import { createClient } from "@/lib/supabase/server";
 import { getPermisos, requireUser } from "@/lib/auth/permisos";
+import { uuidSchema } from "@/lib/schemas/uuid";
 import type {
   ResultadoOperaciones,
   TipoEvento,
@@ -26,7 +26,7 @@ const VERBO_POR_EVENTO: Record<TipoEvento, string> = {
   fin: "finalizar",
 };
 
-const actividadIdSchema = z.string().uuid("La actividad no es válida.");
+const actividadIdSchema = uuidSchema("La actividad no es válida.");
 
 function traducirError(error: PostgrestError): string {
   if (error.code === "42501") {

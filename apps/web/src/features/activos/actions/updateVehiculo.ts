@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { requireUser } from "@/lib/auth/permisos";
+import { uuidSchema } from "@/lib/schemas/uuid";
 import { vehiculoSchema } from "../schemas/vehiculoSchema";
 import {
   actualizarActivoEspecialidad,
@@ -12,7 +13,7 @@ import {
 import type { ResultadoActivo } from "../types/activo.types";
 
 const vehiculoUpdateSchema = vehiculoSchema.and(
-  z.object({ id: z.string().uuid("Activo inválido.") })
+  z.object({ id: uuidSchema("Activo inválido.") })
 );
 
 export type VehiculoUpdateInput = z.infer<typeof vehiculoUpdateSchema>;
