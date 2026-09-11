@@ -35,10 +35,10 @@ export function PermissionsProvider({ children }: PermissionsProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    const supabase = createClient();
+
     async function load() {
       try {
-        const supabase = createClient();
-
         const {
           data: { user },
         } = await supabase.auth.getUser();
@@ -69,7 +69,22 @@ export function PermissionsProvider({ children }: PermissionsProviderProps) {
         setIsLoading(false);
       }
     }
+
     load();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setPermisos([]);
+      setIsLoading(true);
+      if (session) {
+        load();
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const can = useCallback(

@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/lib/supabase/server";
 import { signOut } from "@/app/actions/auth";
+import { getPermisos } from "@/lib/auth/permissions";
 import AdminShell from "@/components/layout/AdminShell";
 
 export default async function Home() {
@@ -15,6 +16,8 @@ export default async function Home() {
   if (error || !user) {
     redirect("/login");
   }
+
+  const permisos = await getPermisos();
 
   const { data: profile } = await supabase
     .from("profiles")
@@ -34,6 +37,7 @@ export default async function Home() {
       userName={nombreCompleto}
       userEmail={correo}
       signOut={signOut}
+      permisos={permisos}
     >
       <div className="mx-auto w-full max-w-6xl">
         <div className="mb-8">
