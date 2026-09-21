@@ -19,6 +19,9 @@ importers:
       '@supabase/supabase-js':
         specifier: ^2.114.0
         version: 2.114.0
+      apexcharts:
+        specifier: ^7.4.0
+        version: 7.4.0
       exceljs:
         specifier: ^4.4.0
         version: 4.4.0
@@ -28,6 +31,9 @@ importers:
       react:
         specifier: 19.2.8
         version: 19.2.8
+      react-apexcharts:
+        specifier: ^2.1.1
+        version: 2.1.1(apexcharts@7.4.0)(react@19.2.8)
       react-dom:
         specifier: 19.2.8
         version: 19.2.8(react@19.2.8)
@@ -1502,6 +1508,13 @@ packages:
     resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==}
     engines: {node: '>=8'}
 
+  apex-commons@0.8.1:
+    resolution: {integrity: sha512-F7fqJVh0smeTu1d86uuRSNNZvaM/l11GNQMbu6oAiSvuXp+K8KCufg0oZTy2VQBEEipRLAdFqkHnphlVpTG0Gw==}
+
+  apexcharts@7.4.0:
+    resolution: {integrity: sha512-p7c9d44vWfR6vLyg4gZr1nNwD8dL8+BYXP1kysbDS0jZgca8YF+IVUQMtOnkGc8L4SMRHgadnPj54xbDP75tsQ==}
+    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
+
   archiver-utils@2.1.0:
     resolution: {integrity: sha512-bEL/yUb/fNNiNTuUz979Z0Yg5L+LzLxGJz8x79lYmR54fmTIb6ob/hNQgkQnIUDWIFjZVQwl9Xs356I6BAMHfw==}
     engines: {node: '>= 6'}
@@ -2772,6 +2785,12 @@ packages:
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
+
+  react-apexcharts@2.1.1:
+    resolution: {integrity: sha512-aV25n+1ZdAzRG0KhODVC48K8WbhMKBAr3yWSeaaBqM1ySn22kSSKblsNCUvlwegsT+cdMLuOrK9xGZb+IK+OkQ==}
+    peerDependencies:
+      apexcharts: '>=5.10.1'
+      react: '>=16.8.0'
 
   react-dom@19.2.8:
     resolution: {integrity: sha512-rVprimfGBG3DR+Tq0IQG2DT5PxKth1WIGDmj5yPmlzr4YBe7uyE+Du4oVqTDXZSHGGGXRtTJEGSSePyQCMBglQ==}
@@ -4644,6 +4663,12 @@ snapshots:
     dependencies:
       color-convert: 2.0.1
 
+  apex-commons@0.8.1: {}
+
+  apexcharts@7.4.0:
+    dependencies:
+      apex-commons: 0.8.1
+
   archiver-utils@2.1.0:
     dependencies:
       glob: 7.2.3
@@ -6104,6 +6129,12 @@ snapshots:
   punycode@2.3.1: {}
 
   queue-microtask@1.2.3: {}
+
+  react-apexcharts@2.1.1(apexcharts@7.4.0)(react@19.2.8):
+    dependencies:
+      apexcharts: 7.4.0
+      prop-types: 15.8.1
+      react: 19.2.8
 
   react-dom@19.2.8(react@19.2.8):
     dependencies:

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Input from "@/components/form/input/InputField";
 
 interface SearchInputProps {
@@ -25,13 +25,18 @@ const SearchInput: React.FC<SearchInputProps> = ({
   disabled,
 }) => {
   const [value, setValue] = useState(defaultValue);
+  const onChangeRef = useRef(onChange);
+
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  }, [onChange]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
-      onChange(value);
+      onChangeRef.current(value);
     }, debounceMs);
     return () => window.clearTimeout(timer);
-  }, [value, debounceMs, onChange]);
+  }, [value, debounceMs]);
 
   return (
     <Input

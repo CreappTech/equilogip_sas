@@ -27,11 +27,11 @@ const tallaCamisa = z.enum(["S", "M", "L", "XL", "XXL", "XXXL"], {
 });
 
 const tallaPantalon = z.enum(
-  ["28", "30", "32", "34", "36", "38", "40", "42"],
+  ["6", "8", "10", "12", "14", "16", "18", "20", "28", "30", "32", "34", "36", "38", "40", "42"],
   { message: "Talla de pantalón no válida." }
 );
 
-const tallaZapato = z.enum(["38", "39", "40", "41", "42", "43", "44", "45"], {
+const tallaZapato = z.enum(["36", "37", "38", "39", "40", "41", "42", "43", "44", "45"], {
   message: "Talla de zapato no válida.",
 });
 

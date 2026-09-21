@@ -1,6 +1,24 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+const TERMINAL_AUTH_ERRORS = new Set([
+  "refresh_token_not_found",
+  "refresh_token_already_used",
+  "session_expired",
+  "invalid_refresh_token",
+  "invalid_jwt",
+  "bad_jwt",
+  "user_not_found",
+  "40107",
+]);
+
+function isTerminalSessionError(error: unknown): boolean {
+  if (!error || typeof error !== "object") return false;
+  return "code" in error && typeof error.code === "string"
+    ? TERMINAL_AUTH_ERRORS.has(error.code)
+    : false;
+}
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -31,6 +49,7 @@ export async function middleware(request: NextRequest) {
 
   const {
     data: { user },
+    error,
   } = await supabase.auth.getUser();
 
   const pathname = request.nextUrl.pathname;
@@ -40,16 +59,42 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith("/reset-password") ||
     pathname.startsWith("/api");
 
-  if (user && isLoginRoute) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/";
-    return NextResponse.redirect(url);
+  const sessionIsDead = Boolean(error && isTerminalSessionError(error));
+
+  if (sessionIsDead) {
+    // El refresh/access token de la cookie es inválido o fue revocado en el
+    // servidor (sign-out global, rotación de JWT, reset de proyecto) y nunca
+    // volverá a ser aceptado por GoTrue. auth-js conserva la sesión mientras
+    // el access token no haya vencido (proactive-preserve), así que sin esta
+    // limpieza cada request reintentaría el refresh y entraría en un loop de
+    // redirects. `signOut({ scope: "local" })` no hace llamadas de red: solo
+    // emite los Set-Cookie que borran la sesión obsoleta.
+    await supabase.auth.signOut({ scope: "local" });
   }
 
-  if (!user && !isLoginRoute && !isPublicRoute) {
+  const isAuthenticated = Boolean(user && !error);
+
+  if (isAuthenticated && isLoginRoute) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/";
+    const redirectResponse = NextResponse.redirect(url);
+    supabaseResponse.cookies.getAll().forEach((cookie) =>
+      redirectResponse.cookies.set(cookie)
+    );
+    return redirectResponse;
+  }
+
+  if (!isAuthenticated && !isLoginRoute && !isPublicRoute) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
-    return NextResponse.redirect(url);
+    if (sessionIsDead) {
+      url.searchParams.set("expired", "1");
+    }
+    const redirectResponse = NextResponse.redirect(url);
+    supabaseResponse.cookies.getAll().forEach((cookie) =>
+      redirectResponse.cookies.set(cookie)
+    );
+    return redirectResponse;
   }
 
   return supabaseResponse;

@@ -10,6 +10,7 @@ import {
   ChartBarIcon,
   ClipboardListIcon,
   ClockIcon,
+  DotacionIcon,
   FileTextIcon,
   GridIcon,
   GroupIcon,
@@ -50,6 +51,10 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ permisos = [] }) => {
     permisosActivos.includes("*") ||
     permisosActivos.some((p) => p.startsWith("empleados."));
 
+  const puedeVerDotacion =
+    permisosActivos.includes("*") ||
+    permisosActivos.some((p) => p.startsWith("dotacion."));
+
   const puedeVerCatalogos =
     permisosActivos.includes("*") ||
     permisosActivos.some((p) => p.startsWith("catalogos."));
@@ -69,6 +74,10 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ permisos = [] }) => {
   const puedeVerJornada =
     permisosActivos.includes("*") ||
     permisosActivos.some((p) => p.startsWith("jornada."));
+
+  const puedeVerMantenimiento = permisosActivos.some((p) =>
+    p.startsWith("mantenimiento.")
+  );
 
   const navExpanded = isExpanded || isHovered || isMobileOpen;
 
@@ -140,7 +149,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ permisos = [] }) => {
                   <HorizontaLDots />
                 )}
               </h2>
-              <ul className="flex flex-col gap-4">
+              <ul className="flex flex-col gap-1">
                 <li>
                   <Link
                     href="/"
@@ -165,7 +174,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ permisos = [] }) => {
               </ul>
             </div>
 
-            {(puedeVerActivos || puedeVerEmpleados) && (
+            {(puedeVerActivos || puedeVerEmpleados || puedeVerDotacion) && (
               <div>
                 <h2
                   className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
@@ -180,7 +189,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ permisos = [] }) => {
                     <HorizontaLDots />
                   )}
                 </h2>
-                <ul className="flex flex-col gap-4">
+                <ul className="flex flex-col gap-1">
                   <li>
                     <Link
                       href="/activos"
@@ -227,6 +236,31 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ permisos = [] }) => {
                       )}
                     </Link>
                   </li>
+                  {puedeVerDotacion && (
+                    <li>
+                      <Link
+                        href="/dotacion"
+                        className={`menu-item group ${
+                          pathname.startsWith("/dotacion")
+                            ? "menu-item-active"
+                            : "menu-item-inactive"
+                        }`}
+                      >
+                        <span
+                          className={
+                            pathname.startsWith("/dotacion")
+                              ? "menu-item-icon-active"
+                              : "menu-item-icon-inactive"
+                          }
+                        >
+                          <DotacionIcon />
+                        </span>
+                        {navExpanded && (
+                          <span className="menu-item-text">Dotación</span>
+                        )}
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
             )}
@@ -246,7 +280,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ permisos = [] }) => {
                     <HorizontaLDots />
                   )}
                 </h2>
-                <ul className="flex flex-col gap-4">
+                <ul className="flex flex-col gap-1">
                   <li>
                     <Link
                       href="/operaciones"
@@ -326,6 +360,158 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ permisos = [] }) => {
               </div>
             )}
 
+            {puedeVerMantenimiento && (
+              <div>
+                <h2
+                  className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                    !isExpanded && !isHovered
+                      ? "lg:justify-center"
+                      : "justify-start"
+                  }`}
+                >
+                  {isExpanded || isHovered || isMobileOpen ? (
+                    "Mantenimiento"
+                  ) : (
+                    <HorizontaLDots />
+                  )}
+                </h2>
+                <ul className="flex flex-col gap-1">
+                  {(permisosActivos.includes("*") ||
+                    permisosActivos.includes("mantenimiento.inspecciones.ver")) && (
+                    <li>
+                      <Link
+                        href="/mantenimiento"
+                        className={`menu-item group ${
+                          pathname === "/mantenimiento"
+                            ? "menu-item-active"
+                            : "menu-item-inactive"
+                        }`}
+                      >
+                        <span
+                          className={
+                            pathname === "/mantenimiento"
+                              ? "menu-item-icon-active"
+                              : "menu-item-icon-inactive"
+                          }
+                        >
+                          <ChartBarIcon />
+                        </span>
+                        {navExpanded && (
+                          <span className="menu-item-text">
+                            Panel de salud
+                          </span>
+                        )}
+                      </Link>
+                    </li>
+                  )}
+                  {(permisosActivos.includes("*") ||
+                    permisosActivos.includes("mantenimiento.inspecciones.crear")) && (
+                    <li>
+                      <Link
+                        href="/mantenimiento/inspeccion"
+                        className={`menu-item group ${
+                          pathname.startsWith("/mantenimiento/inspeccion")
+                            ? "menu-item-active"
+                            : "menu-item-inactive"
+                        }`}
+                      >
+                        <span
+                          className={
+                            pathname.startsWith("/mantenimiento/inspeccion")
+                              ? "menu-item-icon-active"
+                              : "menu-item-icon-inactive"
+                          }
+                        >
+                          <ClipboardListIcon />
+                        </span>
+                        {navExpanded && (
+                          <span className="menu-item-text">Inspección</span>
+                        )}
+                      </Link>
+                    </li>
+                  )}
+                  {(permisosActivos.includes("*") ||
+                    permisosActivos.includes("mantenimiento.preguntas.ver")) && (
+                    <li>
+                      <Link
+                        href="/mantenimiento/preguntas"
+                        className={`menu-item group ${
+                          pathname.startsWith("/mantenimiento/preguntas")
+                            ? "menu-item-active"
+                            : "menu-item-inactive"
+                        }`}
+                      >
+                        <span
+                          className={
+                            pathname.startsWith("/mantenimiento/preguntas")
+                              ? "menu-item-icon-active"
+                              : "menu-item-icon-inactive"
+                          }
+                        >
+                          <ListIcon />
+                        </span>
+                        {navExpanded && (
+                          <span className="menu-item-text">Preguntas</span>
+                        )}
+                      </Link>
+                    </li>
+                  )}
+                  {(permisosActivos.includes("*") ||
+                    permisosActivos.includes("mantenimiento.rutinas.ver")) && (
+                    <li>
+                      <Link
+                        href="/mantenimiento/rutinas"
+                        className={`menu-item group ${
+                          pathname.startsWith("/mantenimiento/rutinas")
+                            ? "menu-item-active"
+                            : "menu-item-inactive"
+                        }`}
+                      >
+                        <span
+                          className={
+                            pathname.startsWith("/mantenimiento/rutinas")
+                              ? "menu-item-icon-active"
+                              : "menu-item-icon-inactive"
+                          }
+                        >
+                          <ListIcon />
+                        </span>
+                        {navExpanded && (
+                          <span className="menu-item-text">Rutinas</span>
+                        )}
+                      </Link>
+                    </li>
+                  )}
+                  {(permisosActivos.includes("*") ||
+                    permisosActivos.includes("mantenimiento.configuracion.editar")) && (
+                    <li>
+                      <Link
+                        href="/mantenimiento/configuracion"
+                        className={`menu-item group ${
+                          pathname.startsWith("/mantenimiento/configuracion")
+                            ? "menu-item-active"
+                            : "menu-item-inactive"
+                        }`}
+                      >
+                        <span
+                          className={
+                            pathname.startsWith("/mantenimiento/configuracion")
+                              ? "menu-item-icon-active"
+                              : "menu-item-icon-inactive"
+                          }
+                        >
+                          <ChartBarIcon />
+                        </span>
+                        {navExpanded && (
+                          <span className="menu-item-text">Configuración</span>
+                        )}
+                      </Link>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
+
             {puedeVerJornada && (
               <div>
                 <h2
@@ -341,7 +527,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ permisos = [] }) => {
                     <HorizontaLDots />
                   )}
                 </h2>
-                <ul className="flex flex-col gap-4">
+                <ul className="flex flex-col gap-1">
                   <li>
                     <Link
                       href="/jornada/planeacion"
@@ -459,7 +645,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ permisos = [] }) => {
                     <HorizontaLDots />
                   )}
                 </h2>
-                <ul className="flex flex-col gap-4">
+                <ul className="flex flex-col gap-1">
                   <li>
                     <Link
                       href="/catalogos"
@@ -502,7 +688,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ permisos = [] }) => {
                     <HorizontaLDots />
                   )}
                 </h2>
-                <ul className="flex flex-col gap-4">
+                <ul className="flex flex-col gap-1">
                   {puedeGestionarUsuarios && (
                     <li>
                       <Link

@@ -21,6 +21,7 @@ import ClipboardListIcon from "./clipboard-list.svg";
 import ChartBarIcon from "./chart-bar.svg";
 import FileTextIcon from "./file-text.svg";
 import ClockIcon from "./clock.svg";
+import DotacionIcon from "./dotacion.svg";
 
 export {
   ChevronDownIcon,
@@ -46,4 +47,5 @@ export {
   ChartBarIcon,
   FileTextIcon,
   ClockIcon,
+  DotacionIcon,
 };

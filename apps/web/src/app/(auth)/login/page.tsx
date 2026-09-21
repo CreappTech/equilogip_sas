@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import SignInForm from "@/components/auth/SignInForm";
+
+import LoginNotice from "./LoginNotice";
 
 export const metadata: Metadata = {
   title: "Iniciar sesión",
@@ -8,5 +11,12 @@ export const metadata: Metadata = {
 };
 
 export default function LoginPage() {
-  return <SignInForm />;
+  return (
+    <>
+      <Suspense fallback={null}>
+        <LoginNotice />
+      </Suspense>
+      <SignInForm />
+    </>
+  );
 }

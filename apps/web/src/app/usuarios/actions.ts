@@ -132,7 +132,17 @@ export async function crearUsuario(
 
   if (profileError) {
     await admin.auth.admin.deleteUser(nuevoId);
-    return { ok: false, error: "No se pudo completar el alta del usuario." };
+    const constraintMatch = /profiles_numero_documento_key/.test(
+      profileError.message,
+    )
+      ? "El número de documento ya está registrado."
+      : /profiles_email_login_key/.test(profileError.message)
+        ? "El correo electrónico ya está en uso."
+        : null;
+    return {
+      ok: false,
+      error: constraintMatch ?? "No se pudo completar el alta del usuario.",
+    };
   }
 
   if (data.rolIds && data.rolIds.length > 0) {

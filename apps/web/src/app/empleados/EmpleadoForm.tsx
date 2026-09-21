@@ -51,25 +51,35 @@ const TALLA_CAMISA_OPTIONS = [
 ];
 
 const TALLA_PANTALON_OPTIONS = [
-  { value: "28", label: "28" },
-  { value: "30", label: "30" },
-  { value: "32", label: "32" },
-  { value: "34", label: "34" },
-  { value: "36", label: "36" },
-  { value: "38", label: "38" },
-  { value: "40", label: "40" },
-  { value: "42", label: "42" },
+  { value: "6", label: "6 (Dama)" },
+  { value: "8", label: "8 (Dama)" },
+  { value: "10", label: "10 (Dama)" },
+  { value: "12", label: "12 (Dama)" },
+  { value: "14", label: "14 (Dama)" },
+  { value: "16", label: "16 (Dama)" },
+  { value: "18", label: "18 (Dama)" },
+  { value: "20", label: "20 (Dama)" },
+  { value: "28", label: "28 (Caballero)" },
+  { value: "30", label: "30 (Caballero)" },
+  { value: "32", label: "32 (Caballero)" },
+  { value: "34", label: "34 (Caballero)" },
+  { value: "36", label: "36 (Caballero)" },
+  { value: "38", label: "38 (Caballero)" },
+  { value: "40", label: "40 (Caballero)" },
+  { value: "42", label: "42 (Caballero)" },
 ];
 
 const TALLA_ZAPATO_OPTIONS = [
-  { value: "38", label: "38" },
-  { value: "39", label: "39" },
-  { value: "40", label: "40" },
-  { value: "41", label: "41" },
-  { value: "42", label: "42" },
-  { value: "43", label: "43" },
-  { value: "44", label: "44" },
-  { value: "45", label: "45" },
+  { value: "36", label: "36 (Dama)" },
+  { value: "37", label: "37 (Dama)" },
+  { value: "38", label: "38 (Caballero)" },
+  { value: "39", label: "39 (Caballero)" },
+  { value: "40", label: "40 (Caballero)" },
+  { value: "41", label: "41 (Caballero)" },
+  { value: "42", label: "42 (Caballero)" },
+  { value: "43", label: "43 (Caballero)" },
+  { value: "44", label: "44 (Caballero)" },
+  { value: "45", label: "45 (Caballero)" },
 ];
 
 function rrhhOptions(opts: RrhhOpcion[]) {
