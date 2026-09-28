@@ -36,16 +36,16 @@ export async function listEntregas(busqueda = ""): Promise<ListadoEntrega[]> {
 
   const filas = (data ?? []) as unknown as Array<
     ListadoEntrega & {
-      empleados: { nombres: string; apellidos: string; documento_identidad: string }[] | null;
+      empleados: { nombres: string; apellidos: string; documento_identidad: string } | null;
     }
   >;
 
   let lista: ListadoEntrega[] = filas.map(({ empleados, ...fila }) => ({
     ...fila,
     empleado_nombre: empleados
-      ? `${empleados[0]?.nombres ?? ""} ${empleados[0]?.apellidos ?? ""}`.trim() || null
+      ? `${empleados.nombres ?? ""} ${empleados.apellidos ?? ""}`.trim() || null
       : null,
-    empleado_documento: empleados?.[0]?.documento_identidad ?? null,
+    empleado_documento: empleados?.documento_identidad ?? null,
   }));
 
   const b = busqueda.trim().toLowerCase();

@@ -27,7 +27,7 @@ interface EntregaRowFila {
   estado: "entregada" | "anulada";
   created_at: string;
   updated_at: string;
-  empleados?: { nombres: string; apellidos: string; documento_identidad: string }[] | null;
+  empleados?: { nombres: string; apellidos: string; documento_identidad: string } | null;
 }
 
 /**
@@ -59,7 +59,7 @@ export async function getEntregaDetalle(id: string): Promise<EntregaDetalle | nu
   const { empleados, ...resto } = fila;
 
   const empleado_nombre = empleados
-    ? `${empleados[0]?.nombres ?? ""} ${empleados[0]?.apellidos ?? ""}`.trim()
+    ? `${empleados.nombres ?? ""} ${empleados.apellidos ?? ""}`.trim()
     : "";
 
   return {
@@ -68,7 +68,7 @@ export async function getEntregaDetalle(id: string): Promise<EntregaDetalle | nu
       evidencia_paths: resto.evidencia_paths ?? [],
     },
     empleado_nombre: empleado_nombre || "—",
-    empleado_documento: empleados?.[0]?.documento_identidad ?? "—",
+    empleado_documento: empleados?.documento_identidad ?? "—",
     lineas: (lineas ?? []) as EntregaDetalleLinea[],
   };
 }
